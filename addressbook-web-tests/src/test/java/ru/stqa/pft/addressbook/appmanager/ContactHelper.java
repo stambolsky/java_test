@@ -26,10 +26,22 @@ public class ContactHelper extends HelperBase{
     }
 
     public void deletedContact() {
-        click(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Notes:'])[1]/following::input[3]"));
+        click(By.xpath("//*[@id=\"content\"]/form[2]/div[2]/input"));
     }
 
     public void selectContact() {
-        click(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='test3@test.ru'])[1]/following::img[2]"));
+        click(By.name("selected[]"));
+    }
+
+    public void initContactModification() {
+        click(By.xpath("//*[@id=\"maintable\"]/tbody/tr[2]/td[8]/a"));
+    }
+
+    public void submitContactModification() {
+        click(By.xpath("//*[@id=\"content\"]/form[1]/input[22]"));
+    }
+
+    public void alertAccept() {
+        wd.switchTo().alert().accept();
     }
 }

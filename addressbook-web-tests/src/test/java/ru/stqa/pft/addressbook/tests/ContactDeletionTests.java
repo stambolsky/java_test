@@ -9,6 +9,7 @@ public class ContactDeletionTests extends TestBase {
     public void testContactDeletion() throws Exception {
         app.getContactHelper().selectContact();
         app.getContactHelper().deletedContact();
+        app.getContactHelper().alertAccept();
         app.getNavigationHelper().goToHomePage();
     }
 
