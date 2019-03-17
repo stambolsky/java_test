@@ -119,4 +119,16 @@ public class TestBase {
     protected void goToContactPage() {
         wd.findElement(By.linkText("add new")).click();
     }
+
+    protected void goToHomePage() {
+        wd.findElement(By.linkText("home")).click();
+    }
+
+    protected void deletedContact() {
+        wd.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Notes:'])[1]/following::input[3]")).click();
+    }
+
+    protected void selectContact() {
+        wd.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='test3@test.ru'])[1]/following::img[2]")).click();
+    }
 }
