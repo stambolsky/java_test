@@ -52,4 +52,23 @@ public class ContactHelper extends HelperBase{
     public void alertAccept() {
         wd.switchTo().alert().accept();
     }
+
+    public void returnToHomePage() {
+        wd.findElement(By.linkText("home page")).click();
+    }
+
+    public void initContactCreation() {
+        click(By.linkText("add new"));
+    }
+
+    public void createContact(ContactData contact, boolean creation) {
+        initContactCreation();
+        fillContactForm(contact, creation);
+        submitContactCreation();
+        returnToHomePage();
+    }
+
+    public boolean isThereAContact() {
+        return isElementPresent(By.name("selected[]"));
+    }
 }
