@@ -24,7 +24,13 @@ public class ContactCreationTests extends TestBase {
         Assert.assertEquals(after.size(), before.size() + 1);
 
         before.add(contact);
-
+        int max = 0;
+        for (ContactData c : after) {
+            if (c.getId() > max) {
+                max = c.getId();
+            }
+        }
+        contact.setId(max);
         Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
 
     }

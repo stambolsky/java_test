@@ -3,7 +3,7 @@ package ru.stqa.pft.addressbook.model;
 import java.util.Objects;
 
 public class ContactData {
-    private final String id;
+    private int id;
     private final String firstname;
     private final String lastname;
     private final String phone_home;
@@ -15,7 +15,7 @@ public class ContactData {
     private String group;
 
     public ContactData(String firstname, String lastname, String phone_home, String phone_mobile, String phone_work, String email1, String email2, String email3, String group) {
-        this.id = null;
+        this.id = 0;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone_home = phone_home;
@@ -27,7 +27,7 @@ public class ContactData {
         this.group = group;
     }
 
-    public ContactData(String id, String firstname, String lastname, String phone_home, String phone_mobile, String phone_work, String email1, String email2, String email3, String group) {
+    public ContactData(int id, String firstname, String lastname, String phone_home, String phone_mobile, String phone_work, String email1, String email2, String email3, String group) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -41,11 +41,20 @@ public class ContactData {
     }
 
     @Override
+    public String toString() {
+        return "ContactData{" +
+                "id='" + id + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return Objects.equals(id, that.id) &&
+        return id == that.id &&
                 Objects.equals(firstname, that.firstname) &&
                 Objects.equals(lastname, that.lastname);
     }
@@ -55,16 +64,7 @@ public class ContactData {
         return Objects.hash(id, firstname, lastname);
     }
 
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "id='" + id + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                '}';
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -105,4 +105,7 @@ public class ContactData {
         return group;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }
