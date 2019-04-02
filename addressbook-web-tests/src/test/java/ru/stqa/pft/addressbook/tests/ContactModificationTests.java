@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.TestBase;
 import ru.stqa.pft.addressbook.model.ContactData;
 
+import java.util.HashSet;
+import java.util.List;
+
 public class ContactModificationTests extends TestBase {
 
     @Test
@@ -12,12 +15,18 @@ public class ContactModificationTests extends TestBase {
         if (!app.getContactHelper().isThereAContact()) {
             app.getContactHelper().createContact(new ContactData("Siarhei", "Tambolski", "111111111", "22222222", "3333333", "test@test.ru", "test2@test.ru", "test3@test.ru", "test1"), true);
         }
-        int before = app.getContactHelper().getContactCount();
+        List<ContactData> before = app.getContactHelper().getContactList();
+        String id = app.getContactHelper().getIdContact();
         app.getContactHelper().initContactModification();
-        app.getContactHelper().fillContactForm(new ContactData("SiarheiNew", "TambolskiNew", "111111111", "22222222", "3333333", "test@test.ru", "test2@test.ru", "test3@test.ru", null), false);
+        ContactData contact = new ContactData(before.get(before.size()-1).getId(), "SiarheiNew", "TambolskiNew", null, null, null, null, null, null, null);
+        app.getContactHelper().fillContactForm(contact, false);
         app.getContactHelper().submitContactModification();
-        app.getContactHelper().initContactCreation();
-        int after = app.getContactHelper().getContactCount();
-        Assert.assertEquals(after, before - 1); // баг в приложении - после модификации, группа удаляется. Должно быть Assert.assertEquals(after, before);
+        app.getNavigationHelper().goToHomePage();
+        List<ContactData> after = app.getContactHelper().getContactList();
+        Assert.assertEquals(after.size(), before.size()-1); // баг в приложении - после модификации, группа удаляется. Должно быть Assert.assertEquals(after.size(), before.size());
+
+        app.getContactHelper().removeIdForModification(before, id);
+        Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
     }
+
 }
