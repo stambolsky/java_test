@@ -18,25 +18,12 @@ public class ContactCreationTests extends TestBase {
     @Test
     public void testContactCreation() {
         List<ContactData> before = app.getContactHelper().getContactList();
-        ContactData contact = new ContactData("Siarhei", "Tambolski", "111111111", "22222222", "3333333", "test@test.ru", "test2@test.ru", "test3@test.ru", "test1");
+        ContactData contact = new ContactData("Siarhei12", "Tambolski", "111111111", "22222222", "3333333", "test@test.ru", "test2@test.ru", "test3@test.ru", "test1");
         app.getContactHelper().createContact(contact, true);
         List<ContactData> after = app.getContactHelper().getContactList();
         Assert.assertEquals(after.size(), before.size() + 1);
 
-        /*int max = 0;
-        for (ContactData c : after) {
-            if (c.getId() > max) {
-                max = c.getId();
-            }
-        }*/
-        Comparator<? super ContactData> byId = new Comparator<ContactData>() {
-            @Override
-            public int compare(ContactData o1, ContactData o2) {
-                return Integer.compare(o1.getId(), o2.getId());
-            }
-        };
-        int max = after.stream().max(byId).get().getId();
-        contact.setId(max);
+        contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
         before.add(contact);
         Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
 
