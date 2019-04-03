@@ -13,24 +13,24 @@ public class ContactModificationTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions() {
-        if (!app.getContactHelper().isThereAContact()) {
-            app.getContactHelper().createContact(new ContactData("Siarhei", "Tambolski", "111111111", "22222222", "3333333", "test@test.ru", "test2@test.ru", "test3@test.ru", "test1"), true);
+        if (app.contact().list().size() == 0) {
+            app.contact().create(new ContactData("Siarhei", "Tambolski", "111111111", "22222222", "3333333", "test@test.ru", "test2@test.ru", "test3@test.ru", "test1"), true);
         }
     }
 
     @Test
     public void testContactModification() {
 
-        List<ContactData> before = app.getContactHelper().getContactList();
-        int id = Integer.parseInt(app.getContactHelper().getIdContact());
+        List<ContactData> before = app.contact().list();
+        int id = Integer.parseInt(app.contact().getIdContact());
         int index = before.size()-1;
         ContactData contact = new ContactData(before.get(index).getId(), "SiarheiNew", "TambolskiNew", null, null, null, null, null, null, null);
 
-        app.getContactHelper().modifyContact(contact);
-        List<ContactData> after = app.getContactHelper().getContactList();
+        app.contact().modify(contact);
+        List<ContactData> after = app.contact().list();
         Assert.assertEquals(after.size(), index); // баг в приложении - после модификации, группа удаляется. Должно быть Assert.assertEquals(after.size(), before.size());
 
-        app.getContactHelper().removeIdForModification(before, id);
+        app.contact().removeIdForModification(before, id);
         Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
         before.sort(byId);
         after.sort(byId);

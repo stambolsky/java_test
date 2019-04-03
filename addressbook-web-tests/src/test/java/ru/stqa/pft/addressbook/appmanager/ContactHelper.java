@@ -64,18 +64,25 @@ public class ContactHelper extends HelperBase{
         click(By.linkText("add new"));
     }
 
-    public void createContact(ContactData contact, boolean creation) {
+    public void create(ContactData contact, boolean creation) {
         initContactCreation();
         fillContactForm(contact, creation);
         submitContactCreation();
         returnToHomePage();
     }
 
-    public void modifyContact(ContactData contact) {
+    public void modify(ContactData contact) {
         initContactModification();
         fillContactForm(contact, false);
         submitContactModification();
-        NavigationHelper.goToHomePage();
+        goToHomePage();
+    }
+
+    public void delete(int index) {
+        selectContact(index);
+        deletedContact();
+        alertAccept();
+        goToHomePage();
     }
 
     public boolean isThereAContact() {
@@ -86,7 +93,7 @@ public class ContactHelper extends HelperBase{
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
         List<ContactData> contacts = new ArrayList<ContactData>();
         List<WebElement> elements = wd.findElements(By.cssSelector("tbody > tr[name='entry']"));
         //elements.remove(0);
@@ -111,5 +118,12 @@ public class ContactHelper extends HelperBase{
                 before.remove(before.get(i));
             }
         }
+    }
+
+    public void goToHomePage() {
+        if (isElementPresent(By.id("maintable"))) {
+            return;
+        }
+        click(By.linkText("home"));
     }
 }
