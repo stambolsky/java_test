@@ -7,8 +7,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase{
 
@@ -40,8 +41,8 @@ public class ContactHelper extends HelperBase{
         click(By.xpath("//*[@id=\"content\"]/form[2]/div[2]/input"));
     }
 
-    public void selectContact(int index) {
-        wd.findElements(By.name("selected[]")).get(index).click();
+    public void selectContactById(int id) {
+        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
     public void initContactModification() {
@@ -78,8 +79,8 @@ public class ContactHelper extends HelperBase{
         goToHomePage();
     }
 
-    public void delete(int index) {
-        selectContact(index);
+    public void delete(ContactData contact) {
+        selectContactById(contact.getId());
         deletedContact();
         alertAccept();
         goToHomePage();
@@ -93,8 +94,8 @@ public class ContactHelper extends HelperBase{
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<ContactData> list() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
+    public Set<ContactData> all() {
+        Set<ContactData> contacts = new HashSet<ContactData>();
         List<WebElement> elements = wd.findElements(By.cssSelector("tbody > tr[name='entry']"));
         //elements.remove(0);
         for (WebElement element : elements) {
@@ -107,7 +108,16 @@ public class ContactHelper extends HelperBase{
         return contacts;
     }
 
-    public String getIdContact() {
+    public void goToHomePage() {
+        if (isElementPresent(By.id("maintable"))) {
+            return;
+        }
+        click(By.linkText("home"));
+    }
+
+
+
+    /*public String getIdContact() {
         return wd.findElement(By.xpath("//*[@id=\"maintable\"]/tbody/tr[2]/td[1]/input")).getAttribute("value");
     }
 
@@ -117,12 +127,6 @@ public class ContactHelper extends HelperBase{
                 before.remove(before.get(i));
             }
         }
-    }
+    }*/
 
-    public void goToHomePage() {
-        if (isElementPresent(By.id("maintable"))) {
-            return;
-        }
-        click(By.linkText("home"));
-    }
 }
