@@ -113,12 +113,11 @@ public class ContactHelper extends HelperBase{
             String firstname = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
             String allEmail = element.findElement(By.cssSelector("td:nth-child(5)")).getText();
             String allPhone = element.findElement(By.cssSelector("td:nth-child(6)")).getText();
-            String[] emails = allEmail.split("\n");
-            String[] phones = allPhone.split("\n");
+            //String[] emails = allEmail.split("\n");
+            //String[] phones = allPhone.split("\n");
 
             contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
-                    .withEmail1(emails[0]).withEmail2(emails[1]).withEmail3(emails[2])
-                    .withPhone_home(phones[0]).withPhone_mobile(phones[1]).withPhone_work(phones[2]));
+                    .withAllEmails(allEmail).withAllPhones(allPhone));
         }
         return new Contacts(contactCache);
     }
