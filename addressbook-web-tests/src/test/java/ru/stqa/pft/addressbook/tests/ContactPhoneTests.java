@@ -27,9 +27,16 @@ public class ContactPhoneTests extends TestBase {
         app.contact().goToHomePage();
         ContactData contact = app.contact().all().iterator().next();
         ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+        //String adress = getAddressHome();
 
         assertThat(contact.getAllEmails(), equalTo(mergeEmails(contactInfoFromEditForm)));
         assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
+        assertThat(contact.getAddress(), equalTo(mergeAddress(contactInfoFromEditForm)));
+    }
+
+    private String mergeAddress(ContactData contact) {
+        return Arrays.asList(contact.getAddress()).stream().filter((s) -> !s.equals(""))
+                .collect(Collectors.joining("\n"));
     }
 
     private String mergePhones(ContactData contact) {
