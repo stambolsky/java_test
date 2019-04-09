@@ -50,6 +50,7 @@ hs_err_pid*
 *.iws
 *.iml
 .idea/*
+*.log
 
 # Mac
 .DS_Store
